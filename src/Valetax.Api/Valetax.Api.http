@@ -1,0 +1,48 @@
+@Valetax.Api_HostAddress = http://localhost:5277
+@rememberMeCode = valetax-dev-code
+@jwt = paste-jwt-here
+@treeName = main
+
+### Get JWT token
+POST {{Valetax.Api_HostAddress}}/api.user.partner.rememberMe?code={{rememberMeCode}}
+Accept: application/json
+
+### Get tree
+POST {{Valetax.Api_HostAddress}}/api.user.tree.get?treeName={{treeName}}
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+### Create root node
+POST {{Valetax.Api_HostAddress}}/api.user.tree.node.create?treeName={{treeName}}&nodeName=root
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+### Create child node
+POST {{Valetax.Api_HostAddress}}/api.user.tree.node.create?treeName={{treeName}}&parentNodeId=1&nodeName=child
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+### Rename node
+POST {{Valetax.Api_HostAddress}}/api.user.tree.node.rename?nodeId=1&newNodeName=new-root
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+### Delete node
+POST {{Valetax.Api_HostAddress}}/api.user.tree.node.delete?nodeId=1
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+### Get journal range
+POST {{Valetax.Api_HostAddress}}/api.user.journal.getRange?skip=0&take=20
+Accept: application/json
+Authorization: Bearer {{jwt}}
+Content-Type: application/json
+
+{
+  "search": "Secure"
+}
+
+### Get single journal event
+POST {{Valetax.Api_HostAddress}}/api.user.journal.getSingle?id=1
+Accept: application/json
+Authorization: Bearer {{jwt}}

@@ -1,0 +1,512 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Valetax.Api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api.user.journal.getRange": {
+      "post": {
+        "tags": [
+          "user.journal"
+        ],
+        "summary": "Provides the pagination API for journal records.",
+        "description": "Skip means the number of items skipped by the server. Take means the maximum number of items returned by the server.\r\nAll fields of the filter are optional.",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JournalFilterRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JournalFilterRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/JournalFilterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalInfoResponsePagedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalInfoResponsePagedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalInfoResponsePagedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api.user.journal.getSingle": {
+      "post": {
+        "tags": [
+          "user.journal"
+        ],
+        "summary": "Returns the information about a particular event by identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api.user.partner.rememberMe": {
+      "post": {
+        "tags": [
+          "user.partner"
+        ],
+        "summary": "Saves user by unique code and returns auth token, if authentication is enabled.",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenInfoResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenInfoResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.user.tree.get": {
+      "post": {
+        "tags": [
+          "user.tree"
+        ],
+        "summary": "Returns the entire tree. If the tree does not exist, it is created automatically.",
+        "parameters": [
+          {
+            "name": "treeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api.user.tree.node.create": {
+      "post": {
+        "tags": [
+          "user.tree.node"
+        ],
+        "summary": "Creates a new node in the specified tree.",
+        "description": "The parent node, when provided, must belong to the same tree. Node names must be unique across siblings.",
+        "parameters": [
+          {
+            "name": "treeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parentNodeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "nodeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api.user.tree.node.delete": {
+      "post": {
+        "tags": [
+          "user.tree.node"
+        ],
+        "summary": "Deletes an existing node.",
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api.user.tree.node.rename": {
+      "post": {
+        "tags": [
+          "user.tree.node"
+        ],
+        "summary": "Renames an existing node.",
+        "description": "The new name must be unique across sibling nodes.",
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "newNodeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Valetax.Api"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JournalFilterRequest": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Inclusive lower bound for event creation time.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "to": {
+            "type": "string",
+            "description": "Inclusive upper bound for event creation time.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "search": {
+            "type": "string",
+            "description": "Free-text search query.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Optional filter for journal search."
+      },
+      "JournalInfoResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Internal journal record identifier.",
+            "format": "int64"
+          },
+          "eventId": {
+            "type": "integer",
+            "description": "Unique event identifier returned to API clients.",
+            "format": "int64"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Journal record creation timestamp in UTC.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Journal item metadata."
+      },
+      "JournalInfoResponsePagedResponse": {
+        "type": "object",
+        "properties": {
+          "skip": {
+            "type": "integer",
+            "description": "Requested skip value.",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Total number of items matching the query.",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JournalInfoResponse"
+            },
+            "description": "Current page items.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Generic paged response."
+      },
+      "JournalResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Internal journal record identifier.",
+            "format": "int64"
+          },
+          "eventId": {
+            "type": "integer",
+            "description": "Unique event identifier returned to API clients.",
+            "format": "int64"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Journal record creation timestamp in UTC.",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "description": "Serialized journal text with exception details.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Full journal record payload."
+      },
+      "NodeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Node identifier.",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Node name.",
+            "nullable": true
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NodeResponse"
+            },
+            "description": "Child nodes.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Tree node response model."
+      },
+      "TokenInfoResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT or other bearer token.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Authentication token payload."
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter a valid JWT bearer token.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
